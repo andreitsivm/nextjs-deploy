@@ -1,74 +1,82 @@
-import {Form,Button} from 'react-bootstrap'
-import {useState} from 'react'
-import axios from 'axios'
-import { useRouter } from 'next/router';
-import Layout from '../../../layout/Layout';
-import { IPost } from './../../../interfaces/interfaces';
+import { Button, FormControl, InputLabel, Input, Box } from "@material-ui/core";
+import React, { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { Post } from "store";
+import { GetServerSideProps } from "next";
+import { blogApi } from "apiRequests/api";
 
-interface UpdatePostProps{
-    post:IPost
+export const getServerSideProps: GetServerSideProps = async ({
+  params: { id },
+}) => {
+  const response = await blogApi.getSinglePost(id);
+  const post = response.data;
+
+  return {
+    props: { post },
+  };
+};
+interface Props {
+  post: Post;
 }
 
-export  async function getServerSideProps({params}){
-    const response=await axios.get(`https://simple-blog-api.crew.red/posts/${params.id}`)
-    const post:IPost=response.data
+const UpdatePost: React.FC<Props> = ({ post }) => {
+  const router = useRouter();
+  const { id, title, body } = post;
+  console.log(post);
 
-    return{
-        props:{post}
-    }
-}
+  const [newTitle, setTitle] = useState(title);
+  const [newBody, setBody] = useState(body);
 
-export default function UpdatePost({post}:UpdatePostProps):JSX.Element{
+  const onChangeTitleHandler = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(target.value);
+  };
+  const onChangeBodyHandler = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    setBody(target.value);
+  };
 
-    const router=useRouter()
-
-
-    const [title,setTitle]=useState(post.title)
-    const [body,setBody]=useState(post.body)
-
-   const  onChangeTitleHandler=(e)=>{
-        setTitle(e.target.value)
-   }
-   const  onChangeBodyHandler=(e)=>{
-    setBody(e.target.value)
-}
- 
-    const updatePost=(e)=>{
-        e.preventDefault()
-        axios({
-            method:'put',
-            url:`https://simple-blog-api.crew.red/posts/${post.id}`,
-            data:{
-                title,
-                body
-            },
-            headers:{
-                "Content-Type":"application/json"
-            }
-        }).then(()=>{
-            router.push('/posts/[postId]',`/posts/${post.id}`)
-        }).catch(error=>{
-            console.log(error)
-        })
-        
-        
-       
-
-    }
-    return(
-        <Layout title="Update post">
-            <h1>Update your post</h1>
-        <Form>
-           <Form.Group>
-               <Form.Label>Post title</Form.Label>
-               <Form.Control value={title} type="text" onChange={onChangeTitleHandler} />
-            </Form.Group> 
-            <Form.Group>
-                <Form.Label>Post body</Form.Label>
-                <Form.Control as="textarea" value={body} onChange={onChangeBodyHandler} rows={3}></Form.Control>
-            </Form.Group>  
-            <Button variant="primary" type="submit" onClick={updatePost}>Update</Button>  
-        </Form>
-        </Layout>
-    )
-}
+  const updatePost = (e: React.FormEvent) => {
+    e.preventDefault();
+    blogApi
+      .updatePost(id, { title: newTitle, body: newBody })
+      .then(() => {
+        router.push("/posts/[postId]", `/posts/${post.id}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  return (
+    <>
+      <h1>Update your post</h1>
+      <form onSubmit={updatePost}>
+        <Box>
+          <FormControl>
+            <InputLabel>Post title</InputLabel>
+            <Input
+              value={newTitle}
+              type="text"
+              onChange={onChangeTitleHandler}
+            />
+          </FormControl>
+        </Box>
+        <Box>
+          <FormControl>
+            <InputLabel>Post body</InputLabel>
+            <Input value={newBody} onChange={onChangeBodyHandler} />
+          </FormControl>
+        </Box>
+        <Box>
+          <Button variant="contained" type="submit">
+            Update
+          </Button>
+        </Box>
+      </form>
+    </>
+  );
+};
+export default UpdatePost;

@@ -1,37 +1,37 @@
-import Head from 'next/head'
-import Layout from '../layout/Layout'
-import PostCard from '../components/PostCard/PostCard'
-import { IPost } from './../interfaces/interfaces';
+import React from "react";
+import { GetServerSideProps } from "next";
+import { blogApi } from "apiRequests/api";
+import Head from "next/head";
+import PostCard from "components/PostCard";
+import { Grid } from "@material-ui/core";
+import { Post } from "store";
 
+export const getServerSideProps: GetServerSideProps = async () => {
+  const response = await blogApi.getPosts();
+  const posts = response.data;
 
-
-interface HomePageProps{
-  data:IPost[]
-}
-
-export async function getServerSideProps() {
-
-  const response= await fetch('https://simple-blog-api.crew.red/posts')
-  const data= await response.json()
-  data.reverse()
-  
   return {
-    props: {data}
-  }
+    props: { posts },
+  };
+};
+
+interface Props {
+  posts: Post[];
 }
-export default function Home({data}:HomePageProps):JSX.Element {
+const Home: React.FC<Props> = ({ posts }) => {
   return (
     <>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>My blog</title>
       </Head>
-      <Layout title="Home Page">
-      {data.map(post=>{
-        return <PostCard key={post.id} id={post.id}  title={post.title}/>
-      })}
-      </Layout>
+      <Grid container spacing={1} direction="column-reverse">
+        {posts.map(({ id, title }) => (
+          <Grid key={id} item xs={12}>
+            <PostCard id={id} title={title} />
+          </Grid>
+        ))}
+      </Grid>
     </>
-      
-  )
-}
+  );
+};
+export default Home;

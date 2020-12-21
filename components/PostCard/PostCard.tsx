@@ -1,30 +1,38 @@
-import styled from 'styled-components'
-import Link from 'next/link'
+import React from "react";
+import Link from "next/link";
+import {
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  Typography,
+} from "@material-ui/core";
+import { useStyles } from "./PostCard.styled";
 
-const Card=styled.div`
-    border: 1px solid grey;
-    border-radius:5px;
-    margin:5px 0;
-`;
-const CardLink=styled.a`
-    padding:10px;
-    font-size:22px;
-    color:#000;
-    text-decoration:none;
-
-&:hover{
-    cursor:pointer;
-    color:#c62828;
-    text-decoration:none;
+interface Props {
+  id: number;
+  title: string;
 }
-`;
 
-export default function PostCard({id,title}){
-    return(
-        <Card>
-            <div className="card__title">
-                <Link href="/posts/[postId]" as={`/posts/${id}`}><CardLink>{title}</CardLink></Link>
-            </div>
-        </Card>
-    )
-}
+export const PostCard: React.FC<Props> = ({ id, title }) => {
+  const classes = useStyles();
+  return (
+    <Card className={classes.root}>
+      <CardActionArea>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            {title}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Link href="/posts/[postId]" as={`/posts/${id}`}>
+          <Button variant="contained" color="primary" size="small">
+            Read Post
+          </Button>
+        </Link>
+      </CardActions>
+    </Card>
+  );
+};

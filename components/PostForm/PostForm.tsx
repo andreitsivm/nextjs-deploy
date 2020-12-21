@@ -1,55 +1,59 @@
-import {Form,Button} from 'react-bootstrap'
+import React, { useState } from "react";
+import { blogApi } from "apiRequests/api";
+import { useRouter } from "next/router";
+import { Button, FormControl, Input, InputLabel, Box } from "@material-ui/core";
 
-import axios from 'axios'
-import {useRouter} from 'next/router'
-import {useSelector,useDispatch}  from 'react-redux';
-import { setBody,setTitle } from './../../redux/actions';
+export const PostForm: React.FC = () => {
+  const router = useRouter();
 
+  const [postTitle, setPostTitle] = useState("");
+  const [postBody, setPostBody] = useState("");
+  const onChangePostTitleHandler = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    setPostTitle(target.value);
+  };
+  const onChangePostBodyHandler = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    setPostBody(target.value);
+  };
 
-
-export default function PostForm():JSX.Element{
-const router=useRouter()
-    const dispatch=useDispatch()
-    const title=useSelector(state=>state.app.inputedTitle)
-    const body=useSelector(state=>state.app.inputedBody)
-    
-
-   const  onChangeTitleHandler=(e)=>{
-        dispatch(setTitle(e.target.value))
-   }
-   const  onChangeBodyHandler=(e)=>{
-    dispatch(setBody(e.target.value))
-}
- 
-   
-
-    const savePost=(e)=>{
-        e.preventDefault()
-        axios({
-            method:"post",
-            url:'https://simple-blog-api.crew.red/posts',
-            data:{
-                title,
-                body
-            },
-            headers:{
-                "Content-Type":"application/json"
-            }
-        }).then(()=>{
-            router.push('/')
-        })
-    }
-    return(
-        <Form>
-           <Form.Group>
-               <Form.Label>Post title</Form.Label>
-               <Form.Control value={title} type="text" onChange={onChangeTitleHandler} />
-            </Form.Group> 
-            <Form.Group>
-                <Form.Label>Post body</Form.Label>
-                <Form.Control as="textarea" value={body} onChange={onChangeBodyHandler} rows={3}></Form.Control>
-            </Form.Group>  
-            <Button variant="success" type="submit" onClick={savePost}>Save</Button>  
-        </Form>
-    )
-}
+  const savePost = (e: React.FormEvent) => {
+    e.preventDefault();
+    blogApi.createPost({ title: postTitle, body: postBody }).then(() => {
+      router.push("/");
+    });
+  };
+  return (
+    <form onSubmit={savePost}>
+      <Box>
+        <FormControl>
+          <InputLabel htmlFor="title">Post title</InputLabel>
+          <Input
+            id="title"
+            type="text"
+            value={postTitle}
+            onChange={onChangePostTitleHandler}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <FormControl>
+          <InputLabel htmlFor="body">Post body</InputLabel>
+          <Input
+            id="body"
+            type="text"
+            value={postBody}
+            onChange={onChangePostBodyHandler}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Button variant="contained" color="primary" type="submit">
+          Save
+        </Button>
+      </Box>
+    </form>
+  );
+};
