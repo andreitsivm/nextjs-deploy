@@ -1,6 +1,5 @@
 import { Button, FormControl, InputLabel, Input, Box } from "@material-ui/core";
 import React, { useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/router";
 import { Post } from "store";
 import { GetServerSideProps } from "next";
