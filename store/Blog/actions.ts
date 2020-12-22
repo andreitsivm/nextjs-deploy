@@ -1,6 +1,6 @@
-import { ADD_COMMENT, SET_TITLE, SET_BODY, BlogActionTypes } from "./types";
+import { ADD_COMMENT, SET_TITLE, SET_BODY, CommentData } from "./types";
 
-export const saveComment: BlogActionTypes = (comment: string) => {
+export const saveComment = (comment: CommentData) => {
   return {
     type: ADD_COMMENT,
     payload: comment,

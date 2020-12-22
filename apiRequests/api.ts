@@ -1,15 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { Constants, api } from "const";
-import { Post } from "store";
+import { Post, PostData, CommentData } from "store";
 
-interface PostData {
-  title: string;
-  body: string;
-}
-interface CommentData {
-  body: string;
-  postId: number;
-}
 const config = {
   headers: { "Content-Type": "application/json" },
 };

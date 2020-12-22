@@ -14,14 +14,22 @@ export interface BlogState {
 }
 
 export interface Comment {
-  id: number;
+  readonly id: number;
   postId: number;
   body: string;
+}
+export interface PostData {
+  title: string;
+  body: string;
+}
+export interface CommentData {
+  body: string;
+  postId: number;
 }
 
 interface AddCommentAction {
   type: typeof ADD_COMMENT;
-  payload: Comment;
+  payload: CommentData;
 }
 
 interface SetPostTitleAction {
