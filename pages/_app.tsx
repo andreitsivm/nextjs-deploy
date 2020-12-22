@@ -5,6 +5,7 @@ import store from "store/store";
 import "fontsource-roboto";
 import type { AppProps } from "next/app";
 import Navbar from "components/Navbar";
+import Footer from "components/Footer";
 import theme from "theme";
 import "../styles/globals.css";
 
@@ -16,25 +17,15 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       </Head>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateRows: "60px 100% 80px",
-              gridAutoColumns: "100%",
-            }}
-          >
-            <header>
-              <Navbar />
-            </header>
-            <main>
-              <Container maxWidth="lg">
-                <Component {...pageProps} />
-              </Container>
-            </main>
-            <footer>
-              <h1>FOOTER</h1>
-            </footer>
-          </div>
+          <header style={{ marginBottom: "60px" }}>
+            <Navbar />
+          </header>
+          <main>
+            <Container maxWidth="lg">
+              <Component {...pageProps} />
+            </Container>
+          </main>
+          <Footer />
         </ThemeProvider>
       </Provider>
     </>

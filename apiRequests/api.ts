@@ -6,6 +6,10 @@ interface PostData {
   title: string;
   body: string;
 }
+interface CommentData {
+  body: string;
+  postId: number;
+}
 const config = {
   headers: { "Content-Type": "application/json" },
 };
@@ -20,4 +24,6 @@ export const blogApi = {
     axios.delete(`${Constants.baseUrl}${api.POSTS}/${id}`),
   updatePost: (id: number, data: PostData): Promise<AxiosResponse<void>> =>
     axios.put(`${Constants.baseUrl}${api.POSTS}/${id}`, data, config),
+  createComment: (data: CommentData): Promise<AxiosResponse<void>> =>
+    axios.post(Constants.baseUrl + api.COMMENTS, data, config),
 };

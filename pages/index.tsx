@@ -2,8 +2,7 @@ import React from "react";
 import { GetServerSideProps } from "next";
 import { blogApi } from "apiRequests/api";
 import Head from "next/head";
-import PostCard from "components/PostCard";
-import { Grid } from "@material-ui/core";
+import Blog from "components/Blog";
 import { Post } from "store";
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -24,13 +23,7 @@ const Home: React.FC<Props> = ({ posts }) => {
       <Head>
         <title>My blog</title>
       </Head>
-      <Grid container spacing={1} direction="column-reverse">
-        {posts.map(({ id, title }) => (
-          <Grid key={id} item xs={12}>
-            <PostCard id={id} title={title} />
-          </Grid>
-        ))}
-      </Grid>
+      <Blog posts={posts} />
     </>
   );
 };

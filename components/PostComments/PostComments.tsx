@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
-import { Button, Box, Input } from "@material-ui/core";
+import { Button, Grid, Typography, TextField } from "@material-ui/core";
+import { blogApi } from "apiRequests/api";
 import { Comment } from "store";
 
 import SingleComment from "./SingleComment/SingleComent";
-import { useStyles } from "./PostComments.style";
 
 interface Props {
   comments: Comment[];
@@ -14,7 +13,6 @@ interface Props {
 
 const CommentGroup: React.FC<Props> = ({ comments = [], postId }) => {
   const router = useRouter();
-  const classes = useStyles();
 
   const [comment, setComment] = useState("");
 
@@ -27,44 +25,53 @@ const CommentGroup: React.FC<Props> = ({ comments = [], postId }) => {
     if (comment === "") {
       return;
     }
-    axios({
-      method: "post",
-      url: `https://simple-blog-api.crew.red/comments`,
-      data: {
+    blogApi
+      .createComment({
         body: comment,
         postId,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(() => {
-      setComment("");
-      router.push(`/posts/[postId]`, `/posts/${postId}`);
-    });
+      })
+      .then(() => {
+        setComment("");
+        router.push(`/posts/[postId]`, `/posts/${postId}`);
+      });
   };
-  return (
-    <div>
-      {comments.length > 0 ? (
-        <div>
-          {comments.map((item) => (
-            <SingleComment key={item.id} body={item.body} />
-          ))}
-        </div>
-      ) : (
-        <p>No comments yet</p>
-      )}
 
-      <form className={classes.root} noValidate autoComplete="off">
-        <Box>
-          <Input id="outlined-basic" onChange={changeHandler} />
-        </Box>
-        <Box>
-          <Button variant="contained" color="primary" onClick={addComment}>
-            Add comment
-          </Button>
-        </Box>
-      </form>
-    </div>
+  return (
+    <Grid container spacing={3}>
+      {comments.length > 0 ? (
+        comments.map(({ id, body }) => (
+          <Grid item sm={12} key={id}>
+            <SingleComment body={body} />
+          </Grid>
+        ))
+      ) : (
+        <Grid item>
+          <Typography variant="h5">No comments yet</Typography>
+        </Grid>
+      )}
+      <Grid item sm={12}>
+        <form noValidate autoComplete="off">
+          <Grid container direction="column" spacing={2}>
+            <Grid item sm={12}>
+              <TextField
+                value={comment}
+                onChange={changeHandler}
+                label="Enter your comment"
+                variant="outlined"
+                multiline
+                fullWidth
+                rows={10}
+              />
+            </Grid>
+            <Grid item>
+              <Button variant="contained" color="primary" onClick={addComment}>
+                Add comment
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Grid>
+    </Grid>
   );
 };
 export default CommentGroup;

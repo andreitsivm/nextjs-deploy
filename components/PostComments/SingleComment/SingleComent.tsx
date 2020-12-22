@@ -1,13 +1,19 @@
-import { CommentBody } from "./SingleComment.styled";
+import React from "react";
+import { Paper } from "@material-ui/core";
+import { useStyles } from "./SingleComment.styled";
 
-interface ICommentItemProps {
+interface Props {
   body: string;
 }
 
-export default function Comment({ body }: ICommentItemProps): JSX.Element {
+const SingleComment: React.FC<Props> = ({ body }) => {
+  const classes = useStyles();
+
   return (
-    <CommentBody>
-      <div className="comment__body">{body}</div>
-    </CommentBody>
+    <Paper variant="elevation" elevation={12} className={classes.paper}>
+      {body}
+    </Paper>
   );
-}
+};
+
+export default SingleComment;

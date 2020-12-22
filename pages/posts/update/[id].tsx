@@ -1,8 +1,9 @@
-import { Button, FormControl, InputLabel, Input, Box } from "@material-ui/core";
 import React, { useState } from "react";
+import { Button, FormControl, InputLabel, Input, Box } from "@material-ui/core";
 import { useRouter } from "next/router";
-import { Post } from "store";
 import { GetServerSideProps } from "next";
+
+import { Post } from "store";
 import { blogApi } from "apiRequests/api";
 
 export const getServerSideProps: GetServerSideProps = async ({
@@ -43,7 +44,7 @@ const UpdatePost: React.FC<Props> = ({ post }) => {
     blogApi
       .updatePost(id, { title: newTitle, body: newBody })
       .then(() => {
-        router.push("/posts/[postId]", `/posts/${post.id}`);
+        router.push("/posts/[postId]", `/posts/${id}`);
       })
       .catch((error) => {
         console.log(error);

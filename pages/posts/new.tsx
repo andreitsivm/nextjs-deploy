@@ -1,9 +1,10 @@
+import { Typography } from "@material-ui/core";
 import PostForm from "components/PostForm";
 
 const NewPost: React.FC = () => {
   return (
     <>
-      <h1>Create new post</h1>
+      <Typography variant="h2">Create new post</Typography>
       <PostForm />
     </>
   );

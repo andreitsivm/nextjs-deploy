@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { GetServerSideProps } from "next";
-import { Box, Button } from "@material-ui/core";
+import { Grid, Button, Typography } from "@material-ui/core";
 import { useRouter } from "next/router";
 import PostComments from "components/PostComments/PostComments";
 import { blogApi } from "apiRequests/api";
@@ -25,6 +25,7 @@ interface Props {
 const SinglePost: React.FC<Props> = ({ post }) => {
   const router = useRouter();
   const { id, title, body, comments } = post;
+
   const deletePost = (e: React.SyntheticEvent) => {
     e.preventDefault();
     blogApi.deletePost(id).then(() => {
@@ -36,23 +37,38 @@ const SinglePost: React.FC<Props> = ({ post }) => {
   };
 
   return (
-    <>
-      <h1>{title}</h1>
-      <p>{body}</p>
-      <Box>
-        <Button variant="contained" onClick={goToUpdate}>
-          Update post
-        </Button>
-        <Button variant="contained" onClick={deletePost}>
-          Delete post
-        </Button>
-        <Box />
+    <Grid container spacing={3} direction="column">
+      <Grid item sm={12}>
+        <Typography variant="h2">{title}</Typography>
+      </Grid>
+      <Grid item sm={12}>
+        <Typography align="justify" variant="body1">
+          {body}
+        </Typography>
+      </Grid>
+      <Grid container item sm={12} spacing={3}>
+        <Grid item>
+          <Button variant="contained" color="primary" onClick={goToUpdate}>
+            Update post
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button variant="contained" color="primary" onClick={deletePost}>
+            Delete post
+          </Button>
+        </Grid>
+      </Grid>
+      <Grid item sm={12}>
         <PostComments comments={comments} postId={id} />
+      </Grid>
+      <Grid item sm={12}>
         <Link href="/">
-          <Button variant="contained">Follow Back</Button>
+          <Button variant="contained" color="secondary">
+            Follow Back
+          </Button>
         </Link>
-      </Box>
-    </>
+      </Grid>
+    </Grid>
   );
 };
 export default SinglePost;
