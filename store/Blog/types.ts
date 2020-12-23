@@ -1,6 +1,4 @@
-export const ADD_COMMENT = "BLOG/ADD_COMMENT";
-export const SET_TITLE = "BLOG/SET_TITLE";
-export const SET_BODY = "BLOG/SET_BODY";
+export const SAVE_POST = "BLOG/SAVE_POST";
 
 export interface Post {
   id: number;
@@ -27,22 +25,9 @@ export interface CommentData {
   postId: number;
 }
 
-interface AddCommentAction {
-  type: typeof ADD_COMMENT;
-  payload: CommentData;
+interface SavePostAction {
+  type: typeof SAVE_POST;
+  payload: Post;
 }
 
-interface SetPostTitleAction {
-  type: typeof SET_TITLE;
-  payload: string;
-}
-
-interface SetPostBodyAction {
-  type: typeof SET_BODY;
-  payload: string;
-}
-
-export type BlogActionTypes =
-  | AddCommentAction
-  | SetPostTitleAction
-  | SetPostBodyAction;
+export type BlogActionTypes = SavePostAction;

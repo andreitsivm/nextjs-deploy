@@ -1,29 +1,18 @@
-import { ADD_COMMENT, SET_BODY, SET_TITLE, BlogState } from "./types";
+import { SAVE_POST, BlogState, BlogActionTypes } from "./types";
 
 const initialState: BlogState = {
-  title: "",
-  body: "",
-  id: "",
+  posts: [],
 };
 
-export const blogReducer = (state = initialState, action) => {
+export const blogReducer = (
+  state = initialState,
+  action: BlogActionTypes
+): BlogState => {
   switch (action.type) {
-    case ADD_COMMENT: {
+    case SAVE_POST: {
       return {
         ...state,
-        inputedComment: action.payload,
-      };
-    }
-    case SET_TITLE: {
-      return {
-        ...state,
-        inputedTitle: action.payload,
-      };
-    }
-    case SET_BODY: {
-      return {
-        ...state,
-        inputedBody: action.payload,
+        posts: [...state.posts, action.payload],
       };
     }
     default: {
