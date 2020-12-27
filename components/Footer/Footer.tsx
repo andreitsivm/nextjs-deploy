@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer: React.FC = () => (
   <footer>
-    <AppBar position="static">&copy; All rights reserved</AppBar>
+    <AppBar style={{ height: "80px" }} position="static" />
   </footer>
 );
 

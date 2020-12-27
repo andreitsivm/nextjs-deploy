@@ -7,7 +7,8 @@ import type { AppProps } from "next/app";
 import Navbar from "components/Navbar";
 import Footer from "components/Footer";
 import theme from "theme";
-import "../styles/globals.css";
+import classes from "styles/app.module.scss";
+import "styles/styles.scss";
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -17,15 +18,17 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       </Head>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <header style={{ marginBottom: "60px" }}>
-            <Navbar />
-          </header>
-          <main>
-            <Container maxWidth="lg">
-              <Component {...pageProps} />
+          <div className={classes.App}>
+            <header style={{ marginBottom: "60px" }}>
+              <Navbar />
+            </header>
+            <Container className={classes.Main} maxWidth="lg">
+              <main>
+                <Component {...pageProps} />
+              </main>
             </Container>
-          </main>
-          <Footer />
+            <Footer />
+          </div>
         </ThemeProvider>
       </Provider>
     </>
