@@ -38,15 +38,15 @@ const SinglePost: React.FC<Props> = ({ post }) => {
 
   return (
     <Grid container spacing={3} direction="column">
-      <Grid item sm={12}>
+      <Grid item xs={12} sm={12}>
         <Typography variant="h2">{title}</Typography>
       </Grid>
-      <Grid item sm={12}>
+      <Grid item xs={12} sm={12}>
         <Typography align="justify" variant="body1">
           {body}
         </Typography>
       </Grid>
-      <Grid container item sm={12} spacing={3}>
+      <Grid container item xs={12} sm={12} spacing={3}>
         <Grid item>
           <Button variant="contained" color="primary" onClick={goToUpdate}>
             Update post
@@ -58,10 +58,10 @@ const SinglePost: React.FC<Props> = ({ post }) => {
           </Button>
         </Grid>
       </Grid>
-      <Grid item sm={12}>
+      <Grid item xs={12} sm={12}>
         <PostComments comments={comments} postId={id} />
       </Grid>
-      <Grid item sm={12}>
+      <Grid item xs={12} sm={12}>
         <Link href="/">
           <Button variant="contained" color="secondary">
             Follow Back

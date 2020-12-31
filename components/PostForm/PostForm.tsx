@@ -27,10 +27,10 @@ const PostForm: React.FC = () => {
   };
   return (
     <Grid container spacing={2}>
-      <Grid item sm={12}>
+      <Grid item xs={12} sm={12}>
         <form onSubmit={savePost}>
           <Grid container spacing={2}>
-            <Grid item sm={12}>
+            <Grid item xs={12} sm={12}>
               <TextField
                 value={postTitle}
                 onChange={onChangePostTitleHandler}
@@ -38,7 +38,7 @@ const PostForm: React.FC = () => {
                 fullWidth
               />
             </Grid>
-            <Grid item sm={12}>
+            <Grid item xs={12} sm={12}>
               <TextField
                 value={postBody}
                 onChange={onChangePostBodyHandler}
@@ -49,7 +49,7 @@ const PostForm: React.FC = () => {
                 rows={10}
               />
             </Grid>
-            <Grid item sm={12}>
+            <Grid item xs={12} sm={12}>
               <Button variant="contained" color="primary" type="submit">
                 Save post
               </Button>

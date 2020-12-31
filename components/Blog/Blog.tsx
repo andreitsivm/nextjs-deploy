@@ -18,7 +18,7 @@ const Blog: React.FC<Props> = ({ posts }) => {
       className={classes.blogWrap}
     >
       {posts.map(({ id, title }) => (
-        <Grid key={id} item xs={12}>
+        <Grid key={id} item xs={12} sm={12}>
           <PostCard id={id} title={title} />
         </Grid>
       ))}
