@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Button, FormControl, InputLabel, Input, Box } from "@material-ui/core";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  Input,
+  Grid,
+  TextField,
+} from "@material-ui/core";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 
@@ -52,29 +59,33 @@ const UpdatePost: React.FC<Props> = ({ post }) => {
   };
   return (
     <>
-      <h1>Update your post</h1>
       <form onSubmit={updatePost}>
-        <Box>
-          <FormControl>
-            <InputLabel>Post title</InputLabel>
-            <Input
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12}>
+            <TextField
+              label="Post title"
               value={newTitle}
               type="text"
               onChange={onChangeTitleHandler}
+              fullWidth
             />
-          </FormControl>
-        </Box>
-        <Box>
-          <FormControl>
-            <InputLabel>Post body</InputLabel>
-            <Input value={newBody} onChange={onChangeBodyHandler} />
-          </FormControl>
-        </Box>
-        <Box>
-          <Button variant="contained" type="submit">
-            Update
-          </Button>
-        </Box>
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <TextField
+              value={newBody}
+              onChange={onChangeBodyHandler}
+              fullWidth
+              variant="outlined"
+              multiline
+              rows={10}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <Button variant="contained" color="primary" type="submit">
+              Update
+            </Button>
+          </Grid>
+        </Grid>
       </form>
     </>
   );

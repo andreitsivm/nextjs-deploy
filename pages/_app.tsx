@@ -19,7 +19,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <div className={classes.App}>
-            <header style={{ marginBottom: "60px" }}>
+            <header className={classes.Header}>
               <Navbar />
             </header>
             <Container className={classes.Main} maxWidth="lg">
