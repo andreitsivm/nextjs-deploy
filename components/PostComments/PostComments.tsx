@@ -37,7 +37,7 @@ const CommentGroup: React.FC<Props> = ({ comments = [], postId }) => {
   };
 
   return (
-    <Grid container direction="center" spacing={3}>
+    <Grid container direction="column" spacing={3}>
       {comments.length > 0 ? (
         comments.map(({ id, body }) => (
           <Grid item xs={12} sm={12} key={id}>
