@@ -37,22 +37,22 @@ const CommentGroup: React.FC<Props> = ({ comments = [], postId }) => {
   };
 
   return (
-    <Grid container spacing={3}>
+    <Grid container direction="center" spacing={3}>
       {comments.length > 0 ? (
         comments.map(({ id, body }) => (
-          <Grid item sm={12} key={id}>
+          <Grid item xs={12} sm={12} key={id}>
             <SingleComment body={body} />
           </Grid>
         ))
       ) : (
-        <Grid item>
+        <Grid item xs={12} sm={12}>
           <Typography variant="h5">No comments yet</Typography>
         </Grid>
       )}
-      <Grid item sm={12}>
+      <Grid item xs={12} sm={12}>
         <form noValidate autoComplete="off">
           <Grid container direction="column" spacing={2}>
-            <Grid item sm={12}>
+            <Grid item xs={12} sm={12}>
               <TextField
                 value={comment}
                 onChange={changeHandler}
