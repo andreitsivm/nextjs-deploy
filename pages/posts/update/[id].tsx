@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  Input,
-  Grid,
-  TextField,
-} from "@material-ui/core";
+import { Button, Grid, TextField } from "@material-ui/core";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 
@@ -46,8 +40,7 @@ const UpdatePost: React.FC<Props> = ({ post }) => {
     setBody(target.value);
   };
 
-  const updatePost = (e: React.FormEvent) => {
-    e.preventDefault();
+  const updatePost = () => {
     blogApi
       .updatePost(id, { title: newTitle, body: newBody })
       .then(() => {
@@ -57,15 +50,30 @@ const UpdatePost: React.FC<Props> = ({ post }) => {
         console.log(error);
       });
   };
+  const { register, errors, handleSubmit } = useForm({
+    mode: "onBlur",
+    reValidateMode: "onBlur",
+  });
+
   return (
     <>
-      <form onSubmit={updatePost}>
+      <form onSubmit={handleSubmit(updatePost)}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
             <TextField
               label="Post title"
               value={newTitle}
               type="text"
+              name="postTitle"
+              error={!!errors.postTitle}
+              helperText={errors?.postTitle?.message}
+              inputRef={register({
+                required: "This field is required",
+                minLength: {
+                  value: 4,
+                  message: "Post should contain at least 4 characters",
+                },
+              })}
               onChange={onChangeTitleHandler}
               fullWidth
             />
@@ -76,6 +84,16 @@ const UpdatePost: React.FC<Props> = ({ post }) => {
               onChange={onChangeBodyHandler}
               fullWidth
               variant="outlined"
+              name="postBody"
+              error={!!errors.postBody}
+              helperText={errors?.postBody?.message}
+              inputRef={register({
+                required: "This field is required",
+                minLength: {
+                  value: 30,
+                  message: "Post should contain at least 30 characters",
+                },
+              })}
               multiline
               rows={10}
             />

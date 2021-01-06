@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { Button, Grid, Typography, TextField } from "@material-ui/core";
+import { useForm } from "react-hook-form";
 import { blogApi } from "apiRequests/api";
 import { Comment } from "store";
 
@@ -20,11 +21,7 @@ const CommentGroup: React.FC<Props> = ({ comments = [], postId }) => {
     setComment(target.value);
   };
 
-  const addComment = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (comment === "") {
-      return;
-    }
+  const addComment = () => {
     blogApi
       .createComment({
         body: comment,
@@ -35,6 +32,10 @@ const CommentGroup: React.FC<Props> = ({ comments = [], postId }) => {
         router.push(`/posts/[postId]`, `/posts/${postId}`);
       });
   };
+  const { register, errors, handleSubmit } = useForm({
+    mode: "onBlur",
+    reValidateMode: "onBlur",
+  });
 
   return (
     <Grid container direction="column" spacing={3}>
@@ -50,21 +51,27 @@ const CommentGroup: React.FC<Props> = ({ comments = [], postId }) => {
         </Grid>
       )}
       <Grid item xs={12} sm={12}>
-        <form noValidate autoComplete="off">
+        <form onSubmit={handleSubmit(addComment)}>
           <Grid container direction="column" spacing={2}>
             <Grid item xs={12} sm={12}>
               <TextField
+                name="postComment"
                 value={comment}
                 onChange={changeHandler}
                 label="Enter your comment"
                 variant="outlined"
+                inputRef={register({
+                  required: "Comment cannot be empty",
+                })}
+                error={!!errors.postComment}
+                helperText={errors?.postComment?.message}
                 multiline
                 fullWidth
-                rows={10}
+                rows={6}
               />
             </Grid>
             <Grid item>
-              <Button variant="contained" color="primary" onClick={addComment}>
+              <Button variant="contained" color="primary" type="submit">
                 Add comment
               </Button>
             </Grid>
