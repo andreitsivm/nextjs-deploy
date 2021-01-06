@@ -46,7 +46,15 @@ const SinglePost: React.FC<Props> = ({ post }) => {
           {body}
         </Typography>
       </Grid>
-      <Grid container item xs={12} sm={12} spacing={3}>
+      <Grid
+        container
+        item
+        xs={12}
+        sm={12}
+        spacing={3}
+        justify="center"
+        alignItems="center"
+      >
         <Grid item>
           <Button variant="contained" color="primary" onClick={goToUpdate}>
             Update post
