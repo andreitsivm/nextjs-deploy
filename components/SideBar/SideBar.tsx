@@ -12,6 +12,7 @@ import {
 import { useStyles } from "./Sidebar.styled";
 
 const TemporaryDrawer: React.FC = () => {
+  const classes = useStyles();
   const [state, setState] = React.useState(false);
 
   const toggleDrawer = (open: boolean) => (
@@ -41,7 +42,7 @@ const TemporaryDrawer: React.FC = () => {
           <MenuIcon />
         </IconButton>
         <Drawer anchor={"left"} open={state} onClose={toggleDrawer(false)}>
-          <List>
+          <List className={classes.list}>
             <ListItem button onClick={toggleDrawer(false)}>
               <Link href="/">
                 <Button>Posts</Button>
