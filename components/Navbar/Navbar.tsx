@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { useStyles } from "./Navbar.styled";
 import SideBar from "components/SideBar";
+import { Dictionary, Routes } from "const";
 
 const Navbar: React.FC = () => {
   const classes = useStyles();
@@ -16,17 +17,17 @@ const Navbar: React.FC = () => {
         <Container maxWidth="lg">
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
-              Blog
+              {Dictionary.BLOG}
             </Typography>
             <Hidden mdUp>
               <SideBar />
             </Hidden>
             <Hidden smDown>
-              <Link href="/">
-                <Button>Posts</Button>
+              <Link href={Routes.MAIN}>
+                <Button>{Dictionary.POST}</Button>
               </Link>
-              <Link href="/posts/new">
-                <Button>Create post</Button>
+              <Link href={`${Routes.POSTS}${Routes.NEW}`}>
+                <Button>{Dictionary.CREATE_NEW_POST}</Button>
               </Link>
             </Hidden>
           </Toolbar>

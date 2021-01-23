@@ -14,6 +14,7 @@ export enum Dictionary {
   ENTER_YOUR_COMMENT = "Enter your comment",
   COMMENT_CANT_BE_EMPTY = "Comment cannot be empty",
   ADD_COMMENT = "Add comment",
-  NO_COMMENTS_YET = "No comments yet"
+  NO_COMMENTS_YET = "No comments yet",
+  BLOG = "Blog"
 
 }

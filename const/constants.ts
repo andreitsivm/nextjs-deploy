@@ -4,7 +4,8 @@ export enum Routes {
   POST_UPDATE = "/posts/update",
   POSTS = "/posts",
   POST_ID = "/[postId]",
-  ID ='/id',
+  ID = "/id",
+  NEW = "/new"
 
 }
 
