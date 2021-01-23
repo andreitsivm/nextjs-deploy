@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { Button, TextField, Grid } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { blogApi } from "apiRequests/api";
+import { Dictionary, Routes } from "const";
 
 const PostForm: React.FC = () => {
   const router = useRouter();
@@ -22,7 +23,7 @@ const PostForm: React.FC = () => {
 
   const savePost = () => {
     blogApi.createPost({ title: postTitle, body: postBody }).then(() => {
-      router.push("/");
+      router.push(Routes.MAIN);
     });
   };
   const { register, errors, handleSubmit } = useForm({
@@ -42,9 +43,9 @@ const PostForm: React.FC = () => {
                 helperText={errors?.title?.message}
                 value={postTitle}
                 onChange={onChangePostTitleHandler}
-                label="Enter post title"
+                label={Dictionary.ENTER_POST_TITLE}
                 inputRef={register({
-                  required: "Post title is required",
+                  required: Dictionary.REQUIRED_FIELD,
                 })}
                 fullWidth
               />
@@ -54,10 +55,10 @@ const PostForm: React.FC = () => {
                 value={postBody}
                 name="postBody"
                 inputRef={register({
-                  required: "Post must contain very interesting content",
+                  required: Dictionary.REQUIRED_FIELD,
                 })}
                 onChange={onChangePostBodyHandler}
-                label="Enter your post"
+                label={Dictionary.ENTER_POST_BODY}
                 error={!!errors.postBody}
                 helperText={errors?.postBody?.message}
                 variant="outlined"
@@ -68,7 +69,7 @@ const PostForm: React.FC = () => {
             </Grid>
             <Grid item xs={12} sm={12}>
               <Button variant="contained" color="primary" type="submit">
-                Save post
+                {Dictionary.SAVE_POST}
               </Button>
             </Grid>
           </Grid>

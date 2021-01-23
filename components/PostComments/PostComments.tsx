@@ -6,6 +6,7 @@ import { blogApi } from "apiRequests/api";
 import { Comment } from "store";
 
 import SingleComment from "./SingleComment/SingleComent";
+import { Dictionary, Routes } from "const";
 
 interface Props {
   comments: Comment[];
@@ -29,7 +30,7 @@ const CommentGroup: React.FC<Props> = ({ comments = [], postId }) => {
       })
       .then(() => {
         setComment("");
-        router.push(`/posts/[postId]`, `/posts/${postId}`);
+        router.push(`${Routes.POSTS}${Routes.POST_ID}`, `${Routes.POSTS}/${postId}`);
       });
   };
   const { register, errors, handleSubmit } = useForm({
@@ -47,7 +48,7 @@ const CommentGroup: React.FC<Props> = ({ comments = [], postId }) => {
         ))
       ) : (
         <Grid item xs={12} sm={12}>
-          <Typography variant="h5">No comments yet</Typography>
+          <Typography variant="h5">{Dictionary.NO_COMMENTS_YET}</Typography>
         </Grid>
       )}
       <Grid item xs={12} sm={12}>
@@ -58,10 +59,10 @@ const CommentGroup: React.FC<Props> = ({ comments = [], postId }) => {
                 name="postComment"
                 value={comment}
                 onChange={changeHandler}
-                label="Enter your comment"
+                label={Dictionary.ENTER_YOUR_COMMENT}
                 variant="outlined"
                 inputRef={register({
-                  required: "Comment cannot be empty",
+                  required: Dictionary.COMMENT_CANT_BE_EMPTY,
                 })}
                 error={!!errors.postComment}
                 helperText={errors?.postComment?.message}
@@ -72,7 +73,7 @@ const CommentGroup: React.FC<Props> = ({ comments = [], postId }) => {
             </Grid>
             <Grid item>
               <Button variant="contained" color="primary" type="submit">
-                Add comment
+                {Dictionary.ADD_COMMENT}
               </Button>
             </Grid>
           </Grid>
