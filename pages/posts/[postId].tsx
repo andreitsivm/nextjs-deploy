@@ -1,11 +1,13 @@
 import React from "react";
 import Link from "next/link";
+import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { Grid, Button, Typography } from "@material-ui/core";
 import { useRouter } from "next/router";
 import PostComments from "components/PostComments/PostComments";
 import { blogApi } from "apiRequests/api";
 import { Post } from "store";
+import { Dictionary, Routes } from "const";
 
 export const getServerSideProps: GetServerSideProps = async ({
   params: { postId },
@@ -29,14 +31,17 @@ const SinglePost: React.FC<Props> = ({ post }) => {
   const deletePost = (e: React.SyntheticEvent) => {
     e.preventDefault();
     blogApi.deletePost(id).then(() => {
-      router.replace("/");
+      router.replace(Routes.MAIN);
     });
   };
   const goToUpdate = () => {
-    router.push("/posts/update/[id]", `/posts/update/${id}`);
+    router.push(`${Routes.POST_UPDATE}${Routes.ID}`, `${Routes.POST_UPDATE}/${id}`);
   };
 
-  return (
+  return (<>
+  <Head>
+    <title>{Dictionary.POST}</title>
+  </Head>
     <Grid container spacing={3} direction="column">
       <Grid item xs={12} sm={12}>
         <Typography variant="h2">{title}</Typography>
@@ -57,12 +62,12 @@ const SinglePost: React.FC<Props> = ({ post }) => {
       >
         <Grid item>
           <Button variant="contained" color="primary" onClick={goToUpdate}>
-            Update post
+            {Dictionary.UPDATE_POST}
           </Button>
         </Grid>
         <Grid item>
           <Button variant="contained" color="primary" onClick={deletePost}>
-            Delete post
+          {Dictionary.DELETE_POST}
           </Button>
         </Grid>
       </Grid>
@@ -70,13 +75,14 @@ const SinglePost: React.FC<Props> = ({ post }) => {
         <PostComments comments={comments} postId={id} />
       </Grid>
       <Grid item xs={12} sm={12}>
-        <Link href="/">
+        <Link href={Routes.MAIN}>
           <Button variant="contained" color="secondary">
-            Follow Back
+            {Dictionary.FOLLOW_BACK}
           </Button>
         </Link>
       </Grid>
     </Grid>
+    </>
   );
 };
 export default SinglePost;

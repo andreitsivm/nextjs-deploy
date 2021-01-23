@@ -1,4 +1,4 @@
-import { SAVE_POST, BlogState, BlogActionTypes } from "./types";
+import { SAVE_POST, BlogState, BlogActionTypes } from "./blogTypes";
 
 const initialState: BlogState = {
   posts: [],

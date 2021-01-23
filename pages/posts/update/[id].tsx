@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
 import { useForm } from "react-hook-form";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 
 import { Post } from "store";
 import { blogApi } from "apiRequests/api";
+import { Dictionary, Routes } from "const";
 
 export const getServerSideProps: GetServerSideProps = async ({
   params: { id },
@@ -44,7 +46,7 @@ const UpdatePost: React.FC<Props> = ({ post }) => {
     blogApi
       .updatePost(id, { title: newTitle, body: newBody })
       .then(() => {
-        router.push("/posts/[postId]", `/posts/${id}`);
+        router.push(`${Routes.POSTS}${Routes.POST_ID}`, `${Routes.POSTS}/${id}`);
       })
       .catch((error) => {
         console.log(error);
@@ -57,6 +59,9 @@ const UpdatePost: React.FC<Props> = ({ post }) => {
 
   return (
     <>
+      <Head>
+        <title>{Dictionary.UPDATE_POST}</title>
+      </Head>
       <form onSubmit={handleSubmit(updatePost)}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
@@ -68,10 +73,10 @@ const UpdatePost: React.FC<Props> = ({ post }) => {
               error={!!errors.postTitle}
               helperText={errors?.postTitle?.message}
               inputRef={register({
-                required: "This field is required",
+                required: Dictionary.REQUIRED_FIELD,
                 minLength: {
                   value: 4,
-                  message: "Post should contain at least 4 characters",
+                  message: Dictionary.TITLE_MIN_LENGTH,
                 },
               })}
               onChange={onChangeTitleHandler}
@@ -88,10 +93,10 @@ const UpdatePost: React.FC<Props> = ({ post }) => {
               error={!!errors.postBody}
               helperText={errors?.postBody?.message}
               inputRef={register({
-                required: "This field is required",
+                required: Dictionary.REQUIRED_FIELD,
                 minLength: {
                   value: 30,
-                  message: "Post should contain at least 30 characters",
+                  message: Dictionary.POST_MIN_LENGTH_MESSAGE,
                 },
               })}
               multiline
@@ -100,7 +105,7 @@ const UpdatePost: React.FC<Props> = ({ post }) => {
           </Grid>
           <Grid item xs={12} sm={12}>
             <Button variant="contained" color="primary" type="submit">
-              Update
+              {Dictionary.UPDATE}
             </Button>
           </Grid>
         </Grid>
